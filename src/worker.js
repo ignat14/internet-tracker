@@ -86,7 +86,7 @@ async function handlePostEvent(request, env, corsHeaders) {
   const timestamp = now.toISOString();
   const local = new Date(now.getTime() + 2 * 60 * 60 * 1000);
   const date = local.toISOString().substring(0, 10);
-  const source = eventType === 'on' ? (body.source || 'general') : null;
+  const source = eventType === 'on' ? (body.source || 'Quick Catch Up') : null;
 
   await env.DB.prepare(
     'INSERT INTO events (event_type, timestamp, date, source) VALUES (?, ?, ?, ?)'
@@ -949,7 +949,7 @@ function getDashboardHTML() {
       const endPct = timeToPercent(endTime);
       const width = Math.max(endPct - startPct, 0.3);
 
-      const isFocus = seg.source && seg.source !== 'general';
+      const isFocus = seg.source && seg.source !== 'Quick Catch Up';
       const div = document.createElement('div');
       div.className = 'timeline-segment' + (isFocus ? ' focus' : '') + (seg.end === null ? ' active' : '');
       div.style.left = startPct + '%';
@@ -957,7 +957,7 @@ function getDashboardHTML() {
 
       const tooltip = document.createElement('div');
       tooltip.className = 'timeline-tooltip';
-      tooltip.textContent = (seg.source && seg.source !== 'general' ? seg.source + ': ' : '')
+      tooltip.textContent = (seg.source && seg.source !== 'Quick Catch Up' ? seg.source + ': ' : '')
         + formatTime(seg.start) + ' → '
         + (seg.end ? formatTime(seg.end) : 'now')
         + ' (' + formatDuration(seg.duration_ms) + ')';
@@ -1002,7 +1002,7 @@ function getDashboardHTML() {
         + '<div class="event-dot ' + evt.event_type + '"></div>'
         + '<div class="event-type ' + evt.event_type + '">' + evt.event_type + '</div>'
         + '<div class="event-time">' + time + '</div>'
-        + (evt.source && evt.source !== 'general' ? '<div class="event-source">' + evt.source + '</div>' : '')
+        + (evt.source && evt.source !== 'Quick Catch Up' ? '<div class="event-source">' + evt.source + '</div>' : '')
         + (durationStr ? '<div class="event-duration">' + durationStr + '</div>' : '')
         + '</div>';
     }
