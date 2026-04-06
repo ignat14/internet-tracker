@@ -1,0 +1,12 @@
+{
+  "name": "internet-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy",
+    "db:create": "npx wrangler d1 create internet-tracker-db",
+    "db:init": "npx wrangler d1 execute internet-tracker-db --file=./schema.sql",
+    "db:init:local": "npx wrangler d1 execute internet-tracker-db --local --file=./schema.sql"
+  }
+}

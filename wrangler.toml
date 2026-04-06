@@ -1,0 +1,13 @@
+name = "internet-tracker"
+main = "src/worker.js"
+compatibility_date = "2024-09-25"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "internet-tracker-db"
+database_id = "<YOUR_D1_DATABASE_ID>"  # Replace after running: npx wrangler d1 create internet-tracker-db
+
+[vars]
+# Set a secret auth token — your iPhone shortcut will send this
+# For production, use: npx wrangler secret put AUTH_TOKEN
+AUTH_TOKEN = "CHANGE_ME_TO_A_RANDOM_STRING"
