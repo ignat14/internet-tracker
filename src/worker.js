@@ -132,7 +132,7 @@ function computeSegments(events, countOpenSegment = false) {
     } else if (evt.event_type === 'off' && onTime) {
       const durationMs = new Date(evt.timestamp) - new Date(onTime);
       segments.push({ start: onTime, end: evt.timestamp, duration_ms: durationMs, source: onSource });
-      totalOnMs += durationMs;
+      if (!onSource || onSource === 'Quick Catch Up') totalOnMs += durationMs;
       onTime = null;
       onSource = null;
     }
@@ -141,7 +141,7 @@ function computeSegments(events, countOpenSegment = false) {
   if (onTime && countOpenSegment) {
     const durationMs = new Date() - new Date(onTime);
     segments.push({ start: onTime, end: null, duration_ms: durationMs, source: onSource });
-    totalOnMs += durationMs;
+    if (!onSource || onSource === 'Quick Catch Up') totalOnMs += durationMs;
   }
 
   return { segments, totalOnMs };
@@ -188,7 +188,7 @@ async function handleGetCalendar(url, env, corsHeaders) {
   const endDate = month + '-' + String(lastDay).padStart(2, '0');
 
   const { results } = await env.DB.prepare(
-    'SELECT event_type, timestamp, date FROM events WHERE date >= ? AND date <= ? ORDER BY date ASC, timestamp ASC'
+    'SELECT event_type, timestamp, date, source FROM events WHERE date >= ? AND date <= ? ORDER BY date ASC, timestamp ASC'
   )
     .bind(startDate, endDate)
     .all();
